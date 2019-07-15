@@ -12,8 +12,8 @@ describe 'Deli Counter' do
         expect($stdout).to receive(:puts).with("The line is currently empty.")
         line(katz_deli)
       end
-    end
 
+end
     context "there are people in line" do
       it "should display the current line" do
         expect($stdout).to receive(:puts).with("The line is currently: 1. Logan 2. Avi 3. Spencer")
@@ -24,6 +24,21 @@ describe 'Deli Counter' do
 	      expect($stdout).to receive(:puts).with("The line is currently: 1. Amanda 2. Annette 3. Ruchi 4. Jason 5. Logan 6. Spencer 7. Avi 8. Joe 9. Rachel 10. Lindsey")
 	line(another_deli)
       end
+    end
+   def line(katz_deli)
+        if (katz_deli.length <1)
+         puts "The line is currently empty."
+        else 
+          listNames = "The line is currently: "
+          katz_deli.each_with_index do |name,index|
+            if (index === katz_deli.length-1)
+              listNames = listNames + (index+1).to_s + ". " + name 
+            else
+            listNames = listNames + (index+1).to_s + ". " + name +" "
+            end
+          end
+          puts listNames
+        end
     end
   end
 
@@ -44,6 +59,7 @@ describe 'Deli Counter' do
         take_a_number(other_deli, "Grace")
         expect(other_deli).to eq(%w(Logan Avi Spencer Grace))
       end
+      
     end
 
     context "adding multiple people in a row" do
@@ -52,6 +68,16 @@ describe 'Deli Counter' do
         take_a_number(katz_deli, "Grace")
         take_a_number(katz_deli, "Kent")
         expect(katz_deli).to eq(%w(Ada Grace Kent))
+      end
+    end
+    def take_a_number(katz_deli,name)
+      if(katz_deli.length<1)
+        katz_deli.push(name)
+        puts "Welcome, #{name}. You are number 1 in line."
+      else
+        katz_deli.push(name)
+        puts "Welcome, #{name}. You are number #{katz_deli.length} in line."
+        return katz_deli
       end
     end
   end
@@ -70,6 +96,16 @@ describe 'Deli Counter' do
         now_serving(other_deli)
         expect(other_deli).to eq(%w(Avi Spencer))
       end
+    end
+    
+    def now_serving(katz_deli)
+      if(katz_deli.length<1)
+        puts "There is nobody waiting to be served!"
+      else
+        puts "Currently serving " + katz_deli[0] + "."
+        katz_deli.shift
+      end
+      return katz_deli
     end
   end
 
